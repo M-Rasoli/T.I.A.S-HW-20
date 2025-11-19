@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - فروشکاه کتاب</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+
+</head>
+<body>
+
+<header>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="#">صفحه اصلی</a></li>
+        </ul>
+        <a asp-page="/InspectionAppointment/Add">ورود</a>
+
+    </nav>
+</header>
+
+
+
+
+
+@RenderBody()
+
+
+
+
+
+
+<footer>
+    <div class="footer-links">
+        <a href="#">فهرست کار ها</a>
+        <a href="#">درباره ما</a>
+    </div>
+    <div class="footer-copy">
+        تمامی حقوق محفوظ است © 2025 طراحی توسط محمد
+    </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,251 @@
+﻿/* ====================== استایل کامل و حرفه‌ای صفحه ثبت نوبت معاینه فنی ====================== */
+* {
+    box-sizing: border-box;
+}
+@font-face {
+    font-family: 'Vazir';
+    src: url('/fonts/Vazir-Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Vazirmatn', 'Tahoma', sans-serif !important;
+    background: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 100%);
+    direction: rtl;
+    text-align: right;
+    min-height: 100vh;
+    padding: 20px 0;
+    margin: 0;
+}
+
+/* عنوان اصلی فرم */
+h2.text-2xl {
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #1e293b;
+    margin-bottom: 2rem;
+    background: linear-gradient(to right, #4f46e5, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* کارت فرم */
+.card {
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 25px 70px rgba(79, 70, 229, 0.2);
+    padding: 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    border: 1px solid #e0e7ff;
+}
+
+/* لیبل‌ها */
+label {
+    display: block;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0.7rem;
+    font-size: 1.1rem;
+    text-align: right;
+}
+
+/* اینپوت و سلکت عمومی */
+input:not(.plate-input):not(.plate-letter):not(.plate-region),
+select,
+textarea {
+    width: 100%;
+    padding: 1rem 1.4rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    background: #fafafa;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+        outline: none;
+        border-color: #6366f1 !important;
+        background: white;
+        box-shadow: 0 0 0 5px rgba(99, 102, 241, 0.2);
+        transform: translateY(-3px);
+    }
+
+/* ====================== پلاک ایرانی فوق‌العاده واقعی ====================== */
+.plate-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    border: 5px solid #1e40af;
+    border-radius: 20px;
+    padding: 20px 24px;
+    box-shadow: 0 15px 40px rgba(30, 64, 175, 0.35), inset 0 3px 15px rgba(255, 255, 255, 0.9);
+    direction: ltr;
+    margin-top: 10px;
+    flex-wrap: nowrap;
+}
+
+.plate-input,
+.plate-letter,
+.plate-region {
+    height: 70px;
+    text-align: center;
+    font-weight: 900;
+    border-radius: 12px;
+    border: 4px solid #1e293b;
+    background: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.plate-input {
+    width: 80px;
+    font-size: 32px;
+    letter-spacing: 3px;
+    color: #1e293b;
+}
+
+.plate-letter {
+    width: 100px;
+    font-size: 20px;
+    color: #1e40af;
+    font-weight: 900;
+}
+
+.plate-region {
+    width: 74px;
+    font-size: 30px;
+    background: #fff8c4 !important;
+    color: #92400e;
+    border-color: #f59e0b;
+}
+
+.plate-iran {
+    background: linear-gradient(to bottom, #0d47a1, #1565c0);
+    color: white;
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 18px;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    box-shadow: 0 6px 20px rgba(30, 64, 175, 0.7);
+    white-space: nowrap;
+    letter-spacing: 1px;
+}
+
+/* افکت فوکوس پلاک */
+.plate-input:focus,
+.plate-letter:focus,
+.plate-region:focus {
+    transform: scale(1.1);
+    border-color: #4f46e5 !important;
+    box-shadow: 0 0 0 6px rgba(79, 70, 229, 0.4) !important;
+    z-index: 10;
+}
+
+/* نمایش زنده پلاک */
+#platePreview {
+    font-family: 'Tahoma', monospace;
+    font-size: 1.7rem;
+    font-weight: 900;
+    color: #1e40af;
+    background: linear-gradient(to right, #e0e7ff, #c7d2fe);
+    padding: 12px 20px;
+    border-radius: 16px;
+    display: inline-block;
+    min-width: 320px;
+    text-align: center;
+    margin-top: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    letter-spacing: 3px;
+}
+
+/* دکمه ثبت */
+button[type="submit"] {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    font-weight: 900;
+    font-size: 1.4rem;
+    padding: 1.2rem 4rem;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 15px 40px rgba(79, 70, 229, 0.5);
+    transition: all 0.4s ease;
+    margin-top: 1rem;
+}
+
+    button[type="submit"]:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 25px 50px rgba(79, 70, 229, 0.6);
+    }
+
+    button[type="submit"]:active {
+        transform: translateY(0);
+    }
+
+/* پیام خطا */
+.text-red-600,
+div[style*="color:red"] {
+    background: #fee2e2;
+    color: #dc2626;
+    padding: 1rem 1.5rem;
+    border-radius: 16px;
+    border: 2px solid #fca5a5;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-top: 1rem;
+}
+
+/* گرید و ریسپانسیو */
+.grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .plate-container {
+        flex-wrap: wrap;
+        padding: 16px;
+        gap: 10px;
+    }
+
+    .plate-input,
+    .plate-letter,
+    .plate-region {
+        height: 60px;
+        font-size: 26px !important;
+    }
+
+    .plate-letter {
+        width: 85px;
+    }
+
+    #platePreview {
+        font-size: 1.4rem;
+        min-width: auto;
+    }
+
+    h2.text-2xl {
+        font-size: 1.8rem;
+    }
+
+    .card {
+        padding: 1.5rem;
+    }
+}

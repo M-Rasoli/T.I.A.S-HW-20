@@ -1,0 +1,341 @@
+﻿@page
+@using App.Domain.Core.CarAgg.Enums
+@using App.EndPoints.Presentation.Razorpage.Pages.Shared
+@model App.EndPoints.Presentation.Razorpage.Pages.InspectionAppointment.AddModel
+@{
+    Layout = null;
+    ViewData["Title"] = "ثبت نوبت معاینه فنی خودرو";
+}
+<link rel="stylesheet" href="~/css/AddAppoinment.css" />
+<main class="flex-1 overflow-x-hidden overflow-y-auto md:mr-64 p-6 transition-all duration-300">
+
+    <!-- 3. Forms Section - Expanded with more input types -->
+    <section id="forms-section" class="mb-8">
+        <h2 class="text-2xl font-semibold text-gray-700 mb-4">ثبت وقت معاینه فنی</h2>
+        <div class="card p-6">
+            <form id="myForm" method="post" enctype='multipart/form-data'>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+
+                    <!--  -->
+                    <div>
+                        <label asp-for="Model.OwnersNationalCode" class="block text-sm font-medium text-gray-700 mb-1">کد ملی مالک</label>
+                        <input type="text" asp-for="Model.OwnersNationalCode" placeholder="" required maxlength="10" minlength="10"
+                               class="mt-1 p-3 block w-full border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150">
+                    </div>
+                    <!-- پلاک ایرانی دستی - زیبا و ۱۰۰٪ کارکردی -->
+                    <!-- فقط این قسمت رو جایگزین کن (بقیه همون قبلی بمونه) -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">پلاک خودرو</label>
+
+                        <div class="plate-container">
+                            <input type="text" maxlength="2" placeholder="۱۲" class="plate-input" id="p1" required oninput="handlePlateInput(this, 2, 'pLetter')" />
+
+                            <select class="plate-letter" id="pLetter" required>
+                                <option value="">حرف</option>
+                                <option>الف</option>
+                                <option>ب</option>
+                                <option>پ</option>
+                                <option>ت</option>
+                                <option>ث</option>
+                                <option>ج</option>
+                                <option>چ</option>
+                                <option>ح</option>
+                                <option>خ</option>
+                                <option>د</option>
+                                <option>ذ</option>
+                                <option>ر</option>
+                                <option>ز</option>
+                                <option>ژ</option>
+                                <option>س</option>
+                                <option>ش</option>
+                                <option>ص</option>
+                                <option>ض</option>
+                                <option>ط</option>
+                                <option>ظ</option>
+                                <option>ع</option>
+                                <option>غ</option>
+                                <option>ف</option>
+                                <option>ق</option>
+                                <option>ک</option>
+                                <option>گ</option>
+                                <option>ل</option>
+                                <option>م</option>
+                                <option>ن</option>
+                                <option>و</option>
+                                <option>ه</option>
+                                <option>ی</option>
+                                <option>ا</option>
+                                <option>د</option>
+                                <option>س</option>
+                                <option>و</option>
+                            </select>
+
+                            <input type="text" maxlength="3" placeholder="۳۴۵" class="plate-input" id="p2" required oninput="handlePlateInput(this, 3, 'p3')" />
+
+                            <div class="plate-iran">ایران</div>
+
+                            <input type="text" maxlength="2" placeholder="۱۲" class="plate-region" id="p3" required oninput="handlePlateInput(this, 2, null)" />
+                        </div>
+
+                        <p class="mt-2 text-sm text-gray-600">
+                            پلاک کامل: <span id="platePreview" class="font-bold text-indigo-700">── ─── ایران ──</span>
+                        </p>
+
+                        <input type="hidden" asp-for="Model.LicensePlate" id="finalPlateValue" />
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">مدل خودرو</label>
+                        <select asp-for="Model.CarModelId" required class="w-full px-5 py-4 text-lg border border-gray-300 rounded-xl focus:ring-4 focus:ring-indigo-500">
+                            <option value="">انتخاب مدل خودرو</option>
+                            @foreach (var car in Model.CarModels)
+                            {
+                                string brand = car.CarBrand == CarCompanyEnum.IranKhodro ? "ایران خودرو" : "سایپا";
+                                <option value="@car.Id">@car.CarModel - @brand</option>
+
+                            }
+                        </select>
+                    </div>
+                    <!-- سال ساخت -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">سال ساخت خودرو (شمسی)</label>
+                        <select asp-for="Model.YearOfManufactureShamsi" required class="w-full px-5 py-4 text-lg border border-gray-300 rounded-xl focus:ring-4 focus:ring-indigo-500">
+                            <option value="">انتخاب سال</option>
+                            @for (int y = 1405; y >= 1370; y--)
+                            {
+                                <option value="@y">@y</option>
+                            }
+                        </select>
+                    </div>
+                    <div>
+                        <label asp-for="Model.MobileNumber" class="block text-sm font-medium text-gray-700 mb-1">شماره تماس</label>
+                        <input type="text" asp-for="Model.MobileNumber" placeholder="" required maxlength="11" minlength="11"
+                               class="mt-1 p-3 block w-full border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150">
+                    </div>
+
+                    <!-- تاریخ نوبت -->
+                    @* <div>
+                        <label asp-for="Model.TurnTimeShamsi" for="dueDatePicker" class="...">زمان نوبت</label>
+                        <input type="text" id="dueDatePicker" asp-for="Model.TurnTimeShamsi"
+                               class="..." placeholder="مثلاً 1403/08/20" autocomplete="off" required />
+                    </div> *@
+                    <!-- ==== بخش زمان نوبت با نمایش روز هفته ==== -->
+                    <div class="mb-6 relative">
+                        <label asp-for="Model.TurnTimeShamsi" class="block font-semibold mb-2">زمان نوبت</label>
+                        <input type="text" id="dueDatePicker" asp-for="Model.TurnTimeShamsi"
+                               class="w-full border border-gray-300 rounded-lg px-4 py-3 text-lg focus:ring-4 focus:ring-indigo-300 focus:border-indigo-500 transition"
+                               placeholder="مثلاً ۱۴۰۴/۰۸/۳۰" autocomplete="off" required />
+
+                        <!-- نمایش روز هفته زیر فیلد تاریخ -->
+                        <div id="weekdayResult" class="mt-3 text-lg font-bold text-indigo-700 text-center"></div>
+                    </div>
+
+                    <div>
+                        <label asp-for="Model.Address" class="block text-sm font-medium text-gray-700 mb-1">آدرس )اختیاری( </label>
+                        <input type="text" asp-for="Model.Address" placeholder=""
+                               class="mt-1 p-3 block w-full border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150">
+                    </div>
+
+                    <!-- دکمه ثبت -->
+                    <div class="flex justify-end md:col-span-3">
+                        <button type="submit"
+                                class="w-full sm:w-auto px-8 py-3 border border-transparent rounded-lg shadow-md text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150">
+                            ثبت نهایی اطلاعات
+                        </button>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.Messege))
+                    {
+                        <div class="mt-8 p-6 bg-green-50 border border-green-200 rounded-xl text-center" style="color:green">
+                            <div class="text-green-800 font-bold text-xl mb-4">
+                                @Model.Messege
+                            </div>
+
+                            <div class="flex justify-center">
+                                <a asp-page="/Index"
+                                   class="inline-flex items-center px-8 py-3 border border-transparent rounded-lg shadow-md text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150">
+                                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                                    </svg>
+                                    بازگشت به صفحه اصلی
+                                </a>
+                            </div>
+                        </div>
+
+                    }
+                    else if (!string.IsNullOrEmpty(Model.Rejected))
+                    {
+                        <div class="mt-6 p-4 bg-red-50 border border-red-300 rounded-lg text-red-700 font-medium text-center" style="color:red">
+                            @Model.Rejected
+                        </div>
+                    }
+
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+
+<!-- اسکریپت‌ها مستقیماً قبل از بسته شدن </body> -->
+@* <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css"/>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/persian-date@1.1.0/dist/persian-date.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
+
+<script>
+    $(function () {
+
+        // مقداردهی تقویم شمسی
+        $("#dueDatePicker").persianDatepicker({
+            format: 'YYYY/MM/DD',
+            persianNumbers: true,
+            autoClose: true,
+            initialValue: false,
+            minDate: new Date(),
+        });
+
+        // تابع تبدیل اعداد فارسی به انگلیسی
+        function convertPersianToEnglish(str) {
+            if (!str) return str;
+            const map = { '۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9' };
+            return str.replace(/[۰-۹]/g, w => map[w]);
+        }
+
+        // هنگام ارسال فرم
+        $("#myForm").on("submit", function () {
+            const dateVal = $("#dueDatePicker").val();
+            const englishDate = convertPersianToEnglish(dateVal);
+            $("#dueDatePicker").val(englishDate);
+            // حالا تاریخ به صورت انگلیسی به Controller ارسال می‌شود
+        });
+
+    });
+</script>
+<script>
+    // مدیریت پلاک ایرانی دستی
+    function handlePlateInput(input, max, nextId) {
+        // فقط عدد قبول کن
+        input.value = input.value.replace(/[^0-9]/g, '');
+        if (input.value.length >= max && nextId) {
+            document.getElementById(nextId).focus();
+        }
+        updatePlate();
+    }
+
+    // وقتی حرف تغییر کرد
+    document.getElementById("pLetter").addEventListener("change", updatePlate);
+
+    // برای همه فیلدهای عددی
+    ["p1", "p2", "p3"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener("input", updatePlate);
+    });
+
+    function updatePlate() {
+        const p1 = document.getElementById("p1").value.padStart(2, '۰');
+        const letter = document.getElementById("pLetter").value || " ";
+        const p2 = document.getElementById("p2").value.padStart(3, '۰');
+        const p3 = document.getElementById("p3").value.padStart(2, '۰');
+
+        const full = `${p1} ${letter} ${p2} ایران ${p3}`;
+        document.getElementById("platePreview").textContent = full;
+        document.getElementById("finalPlateValue").value = full.trim();
+    }
+
+    // در هنگام ارسال فرم (اختیاری: دوباره آپدیت کن)
+    $("#myForm").on("submit", function () {
+        updatePlate(); // تضمین اینکه آخرین مقدار بره
+    });
+</script>
+ *@
+
+<!-- کتابخانه‌های لازم -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css" />
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/persian-date@1.1.0/dist/persian-date.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
+
+<script>
+    $(function () {
+        // آرایه روزهای هفته به فارسی (مطابق تقویم ایران)
+        const weekDaysFa = ['یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه', 'شنبه'];
+
+        $("#dueDatePicker").persianDatepicker({
+            format: 'YYYY/MM/DD',
+            persianDigits: true,
+            autoClose: true,
+            initialValue: false,
+            minDate: new Date(), // از امروز به بعد
+            calendar: { persian: { leapYearMode: 'astronomical' } },
+            observer: true,
+            onSelect: function (unix) {
+                const selectedPersian = $("#dueDatePicker").val(); // مثلاً ۱۴۰۴/۰۸/۳۰
+
+                if (!selectedPersian) {
+                    $("#weekdayResult").html("");
+                    return;
+                }
+
+                // try {
+                //     // تبدیل تاریخ شمسی به میلادی با persian-date
+                //     const pd = new persianDate().parse(selectedPersian);
+                //     const gregorianDate = pd.toDate();
+                //     const dayIndex = gregorianDate.getDay(); // 0 = یکشنبه
+
+                //     $("#weekdayResult").html(
+                //         `این تاریخ مصادف است با <span style="color:#e74c3c; font-size:1.4em;">${weekDaysFa[dayIndex]}</span>`
+                //     );
+                // } catch (e) {
+                //     $("#weekdayResult").html('<span style="color:red;">تاریخ نامعتبر</span>');
+                // }
+            }
+        });
+
+        // تبدیل اعداد فارسی به انگلیسی قبل از ارسال فرم
+        function toEnglishDigits(str) {
+            if (!str) return str;
+            const persianDigits = '۰۱۲۳۴۵۶۷۸۹';
+            const englishDigits = '0123456789';
+            return str.replace(/[۰-۹]/g, w => englishDigits[persianDigits.indexOf(w)]);
+        }
+
+        $("#myForm").on("submit", function () {
+            const persianDate = $("#dueDatePicker").val();
+            const englishDate = toEnglishDigits(persianDate);
+            $("#dueDatePicker").val(englishDate); // ارسال به صورت 1404/08/30 به سرور
+            updatePlate(); // برای پلاک هم اجرا بشه
+        });
+    });
+
+    // ==== مدیریت پلاک ایرانی (همون قبلی، فقط کمی بهینه‌تر) ====
+    function handlePlateInput(input, max, nextId) {
+        input.value = input.value.replace(/[^0-9]/g, '');
+        if (input.value.length >= max && nextId) {
+            const next = document.getElementById(nextId);
+            if (next) next.focus();
+        }
+        updatePlate();
+    }
+
+    function updatePlate() {
+        const p1 = (document.getElementById("p1").value || "").padStart(2, '۰');
+        const letter = document.getElementById("pLetter").value || " ";
+        const p2 = (document.getElementById("p2").value || "").padStart(3, '۰');
+        const p3 = (document.getElementById("p3").value || "").padStart(2, '۰');
+
+        const full = `${p1} ${letter} ${p2} ایران ${p3}`;
+        document.getElementById("platePreview").textContent = full;
+        document.getElementById("finalPlateValue").value = full.trim();
+    }
+
+    // رویدادهای ورودی پلاک
+    document.getElementById("pLetter")?.addEventListener("change", updatePlate);
+    ["p1", "p2", "p3"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener("input", updatePlate);
+    });
+
+    // اجرای اولیه برای نمایش درست
+    $(document).ready(function () {
+        updatePlate();
+    });
+</script>

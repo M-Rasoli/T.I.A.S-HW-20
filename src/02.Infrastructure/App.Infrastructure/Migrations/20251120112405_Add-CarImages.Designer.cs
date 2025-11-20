@@ -4,6 +4,7 @@ using App.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructure.EfCore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251120112405_Add-CarImages")]
+    partial class AddCarImages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,7 +227,7 @@ namespace App.Infrastructure.EfCore.Migrations
                         });
                 });
 
-            modelBuilder.Entity("App.Domain.Core.ImageAgg.Entities.CarImage", b =>
+            modelBuilder.Entity("App.Domain.Core.ImageAgg.Entities.CarImages", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -246,7 +249,7 @@ namespace App.Infrastructure.EfCore.Migrations
 
                     b.HasIndex("AppointmentId");
 
-                    b.ToTable("CarImage");
+                    b.ToTable("CarImages");
                 });
 
             modelBuilder.Entity("App.Domain.Core.InspectionAppointmentAgg.Entities.InspectionAppointment", b =>
@@ -314,10 +317,10 @@ namespace App.Infrastructure.EfCore.Migrations
                     b.ToTable("Appointments");
                 });
 
-            modelBuilder.Entity("App.Domain.Core.ImageAgg.Entities.CarImage", b =>
+            modelBuilder.Entity("App.Domain.Core.ImageAgg.Entities.CarImages", b =>
                 {
                     b.HasOne("App.Domain.Core.InspectionAppointmentAgg.Entities.InspectionAppointment", "Appointment")
-                        .WithMany("CarImage")
+                        .WithMany("CarImages")
                         .HasForeignKey("AppointmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -343,7 +346,7 @@ namespace App.Infrastructure.EfCore.Migrations
 
             modelBuilder.Entity("App.Domain.Core.InspectionAppointmentAgg.Entities.InspectionAppointment", b =>
                 {
-                    b.Navigation("CarImage");
+                    b.Navigation("CarImages");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,6 @@
-﻿using App.Domain.Core.InspectionAppointmentAgg.Dtos;
+﻿using App.Domain.Core.CarAgg.Enums;
+using App.Domain.Core.InspectionAppointmentAgg.Dtos;
+using App.Domain.Core.InspectionAppointmentAgg.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +14,9 @@ namespace App.Domain.Core.InspectionAppointmentAgg.Contracts
         int CreateInspectionAppointment(CreateAppointmentDto newAppointment);
         int NumberOfRequestsOfPerDay(string turnDate);
         bool IsPlateRequestedInThisYear(string plate);
+        List<ShowAcceptedAppointmentDto> GetAcceptedAppointment(string? dayFilter, CarCompanyEnum? companyFilter);
+        int ChangeAppointmentStatus(int requestId, AppointmentStatusEnum status);
+        List<string> GetReserveDays();
+        List<ShowRejectedAppointmentDto> GetRejectedAppointment();
     }
 }

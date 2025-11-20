@@ -24,7 +24,10 @@ namespace App.Infrastructure.EfCore.Configurations
             builder.Property(ia => ia.YearOfManufacture).IsRequired();
 
             builder.Property(ia => ia.Status).HasConversion<string>();
-            
+
+            builder.HasMany(a => a.CarImages).WithOne(i => i.Appointment)
+                .HasForeignKey(i => i.AppointmentId).OnDelete(DeleteBehavior.Cascade);
+
 
         }
     }

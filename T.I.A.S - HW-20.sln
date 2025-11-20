@@ -27,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation.Razorpage", "P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.EndPoints.Presentation.Razorpage", "src\03.EndPoints\Presentation.Razorpage\App.EndPoints.Presentation.Razorpage\App.EndPoints.Presentation.Razorpage.csproj", "{3B8B431E-B023-40EA-A660-869142D13A5C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Infrastructure.FileService", "src\02.Infrastructure\App.Infrastructure.FileService\App.Infrastructure.FileService.csproj", "{4BA53D7A-C2D6-4207-8FBE-D60AB6179623}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{3B8B431E-B023-40EA-A660-869142D13A5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B8B431E-B023-40EA-A660-869142D13A5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B8B431E-B023-40EA-A660-869142D13A5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BA53D7A-C2D6-4207-8FBE-D60AB6179623}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BA53D7A-C2D6-4207-8FBE-D60AB6179623}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BA53D7A-C2D6-4207-8FBE-D60AB6179623}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BA53D7A-C2D6-4207-8FBE-D60AB6179623}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +75,7 @@ Global
 		{59FFF52E-A0B6-46A5-B489-07E2B56C9583} = {8AEA7E4F-92EF-4BA6-9237-978ABF97A6CD}
 		{ACF89DD2-1358-4DFC-AD43-C5E451D128EC} = {8C90E3F9-DDBC-43B1-B273-9EEA2F02239D}
 		{3B8B431E-B023-40EA-A660-869142D13A5C} = {ACF89DD2-1358-4DFC-AD43-C5E451D128EC}
+		{4BA53D7A-C2D6-4207-8FBE-D60AB6179623} = {8AEA7E4F-92EF-4BA6-9237-978ABF97A6CD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2EBE5058-F452-4E4B-88BE-B2BC4155A2F9}

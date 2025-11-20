@@ -10,6 +10,8 @@ using App.Domain.Services.InspectionAppointmentAgg;
 using App.Infrastructure.EfCore.Repositories.AdminAgg;
 using App.Infrastructure.EfCore.Repositories.CarAgg;
 using App.Infrastructure.EfCore.Repositories.InspectionAppointmentAgg;
+using App.Infrastructure.FileService.Contracts;
+using App.Infrastructure.FileService.Services;
 using App.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,6 +23,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(@"Server=DESKTOP-I05OKD5\SQLEXPRESS;Database=TIAS_RazorPages;Integrated Security=true;TrustServerCertificate=true;"));
 
+builder.Services.AddScoped<IFileService, FileService>();
 
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IAdminService, AdminService>();

@@ -1,5 +1,4 @@
 ﻿using App.Domain.Core.CarAgg.Enums;
-using App.Domain.Core.InspectionAppointmentAgg.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,23 +7,18 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.InspectionAppointmentAgg.Dtos
 {
-    public class CreateAppointmentDto
+    public class ShowRejectedAppointmentDto
     {
+        public int Id { get; set; }
         public string OwnersNationalCode { get; set; }
         public string LicensePlate { get; set; }
-        public int CarModelId { get; set; }
+        public string CarModel { get; set; }
         public CarCompanyEnum CarCompany { get; set; }
         public string MobileNumber { get; set; }
-        public int YearOfManufacture { get; set; }
-        public int YearOfManufactureShamsi { get; set; }
-        public AppointmentStatusEnum Status { get; set; }
-        public DateTime TurnTime { get; set; }
+        public string YearOfManufactureShamsi { get; set; }
         public string TurnTimeShamsi { get; set; }
-        public string DayOfWeekShamsi { get; set; }
         public string Address { get; set; }
         public bool IsValidRequests { get; set; }
         public string? RejectionReason { get; set; }
-        public List<string> ImgUrl { get; set; }
-
     }
 }

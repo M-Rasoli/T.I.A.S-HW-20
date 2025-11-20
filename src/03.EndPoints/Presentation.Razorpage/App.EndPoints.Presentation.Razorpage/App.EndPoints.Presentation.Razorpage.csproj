@@ -17,7 +17,12 @@
     <ProjectReference Include="..\..\..\01.Domain\Core\App.Domain.Core\App.Domain.Core.csproj" />
     <ProjectReference Include="..\..\..\01.Domain\Services\App.Domain.AppService\App.Domain.AppService.csproj" />
     <ProjectReference Include="..\..\..\01.Domain\Services\App.Domain.Services\App.Domain.Services.csproj" />
+    <ProjectReference Include="..\..\..\02.Infrastructure\App.Infrastructure.FileService\App.Infrastructure.FileService.csproj" />
     <ProjectReference Include="..\..\..\02.Infrastructure\App.Infrastructure\App.Infrastructure.EfCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Files\" />
   </ItemGroup>
 
 </Project>

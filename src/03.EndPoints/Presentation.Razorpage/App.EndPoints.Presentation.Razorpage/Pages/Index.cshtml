@@ -3,6 +3,19 @@
 @{
     ViewData["Title"] = "صفحه اصلی";
 }
+@* <section class="hero">
+    <h1>سامانه ثبت درخواست معاینه فنی</h1>
+
+</section> *@
+
 <section class="hero">
-    <h1>سامانه مدیریت کار ها</h1>
+    <div class="container text-center">
+        <h1 class="display-4 mb-4">سامانه ثبت درخواست معاینه فنی</h1>
+        <p class="lead mb-5">برای ثبت درخواست جدید معاینه فنی خودرو کلیک کنید</p>
+
+        <a asp-page="/InspectionAppointment/Add" class="btn btn-primary btn-lg px-5 py-3 shadow">
+            <i class="fas fa-car me-2"></i>
+            ثبت درخواست جدید معاینه فنی
+        </a>
+    </div>
 </section>

@@ -11,7 +11,7 @@
 
     <!-- 3. Forms Section - Expanded with more input types -->
     <section id="forms-section" class="mb-8">
-        <h2 class="text-2xl font-semibold text-gray-700 mb-4">ثبت وقت معاینه فنی</h2>
+        <h2 class="text-2xl font-semibold text-gray-700 mb-4">ثبت درخواست معاینه فنی</h2>
         <div class="card p-6">
             <form id="myForm" method="post" enctype='multipart/form-data'>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
@@ -130,18 +130,48 @@
                     </div>
 
                     <div>
-                        <label asp-for="Model.Address" class="block text-sm font-medium text-gray-700 mb-1">آدرس )اختیاری( </label>
+                        <label asp-for="Model.Address" class="block text-sm font-medium text-gray-700 mb-1">آدرس (اختیاری)</label>
                         <input type="text" asp-for="Model.Address" placeholder=""
                                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150">
                     </div>
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="max-w-lg mx-auto mt-10">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                آپلود چندین عکس
+                            </label>
+        
+                            <input type="file" 
+                                   asp-for="Images"
+                                   multiple
+                                   accept="image/*"
+                                   class="mt-1 block w-full text-sm text-gray-500 
+                                    file:mr-4 file:py-2 file:px-4 
+                                     file:rounded-full file:border-0 
+                                    file:text-sm file:font-semibold 
+                                 file:bg-indigo-50 file:text-indigo-700 
+                                hover:file:bg-indigo-100" />
+                        </div>
+                    </form>
 
                     <!-- دکمه ثبت -->
-                    <div class="flex justify-end md:col-span-3">
+                    <div class="flex flex-col sm:flex-row gap-4 justify-end md:col-span-3">
+
+                        <!-- دکمه ثبت نهایی -->
                         <button type="submit"
                                 class="w-full sm:w-auto px-8 py-3 border border-transparent rounded-lg shadow-md text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150">
                             ثبت نهایی اطلاعات
                         </button>
+
+                        <!-- دکمه خروج (الآن button است و دقیقاً همان استایل را دارد، فقط رنگ قرمز) -->
+                        <button type="button"
+                                onclick="window.location='@Url.Page("/Index")'"
+                                class="w-full sm:w-auto px-8 py-3 border border-transparent rounded-lg shadow-md text-base font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150">
+                            خروج
+                        </button>
+
                     </div>
+
+
 
                     @if (!string.IsNullOrEmpty(Model.Messege))
                     {

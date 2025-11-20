@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using App.Domain.Core.ImageAgg.Entities;
 
 namespace App.Domain.Core.InspectionAppointmentAgg.Entities
 {
@@ -24,6 +25,7 @@ namespace App.Domain.Core.InspectionAppointmentAgg.Entities
         public bool IsValidRequests { get; set; }
         public string? RejectionReason { get; set; }
         public DateTime CreatedAt { get; set; }
-        public AppointmentStatusEnum Status { get; set; } 
+        public AppointmentStatusEnum Status { get; set; }
+        public List<CarImage>? CarImages { get; set; }
     }
 }

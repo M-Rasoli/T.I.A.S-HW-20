@@ -9,11 +9,28 @@ using System.Text;
 using System.Threading.Tasks;
 using App.Domain.Core.CarAgg.Contracts;
 using App.Domain.Core.CarAgg.Enums;
+using App.Domain.Core.InspectionAppointmentAgg.Enum;
 
 namespace App.Domain.AppService.InspectionAppointmentAgg
 {
-    public class InspectionAppointmentAppService(IInspectionAppointmentService appointmentService , ICarService carService) : IInspectionAppointmentAppService
+    public class InspectionAppointmentAppService(
+        IInspectionAppointmentService appointmentService 
+        , ICarService carService) :
+        IInspectionAppointmentAppService
     {
+        public Result<bool> ChangeAppointmentStatus(int requestId, AppointmentStatusEnum status)
+        {
+            var result = appointmentService.ChangeAppointmentStatus(requestId, status);
+            if (result > 0)
+            {
+                return Result<bool>.Success(message: "وضعیت با موفقیت تغییر یافت .");
+            }
+            else
+            {
+                return Result<bool>.Failure(message: "مشکلی پیش آمده لحظاتی بعد تلاش کنید.");
+            }
+        }
+
         public Result<bool> CreateInspectionAppointment(CreateAppointmentDto newAppointment)
         {
 
@@ -21,11 +38,16 @@ namespace App.Domain.AppService.InspectionAppointmentAgg
             {
                 newAppointment.IsValidRequests = false;
                 newAppointment.RejectionReason = "طول عمر خودرو بیشتر از 5 سال.";
-
+                newAppointment.Status = AppointmentStatusEnum.Denied;
+                var rs = appointmentService.CreateInspectionAppointment(newAppointment);
                 return Result<bool>.Failure(message: "طول عمر ماشین شما بیشتر از 5 سال است.");
             }
             if (appointmentService.IsPlateRequestedInThisYear(newAppointment.LicensePlate))
             {
+                newAppointment.IsValidRequests = false;
+                newAppointment.RejectionReason = "درخواست دوباره معاینه فنی در یک سال .";
+                newAppointment.Status = AppointmentStatusEnum.Denied;
+                var rs = appointmentService.CreateInspectionAppointment(newAppointment);
                 return Result<bool>.Failure(message: "هر پلاک فقط یکبار در سال می تواند در خواست معاینه فنی بدهد.");
             }
 
@@ -34,6 +56,10 @@ namespace App.Domain.AppService.InspectionAppointmentAgg
 
             if (dayOfWeek == "Friday")
             {
+                newAppointment.IsValidRequests = false;
+                newAppointment.RejectionReason = "درخواست نوبت در روز تعطیل.";
+                newAppointment.Status = AppointmentStatusEnum.Denied;
+                var rs = appointmentService.CreateInspectionAppointment(newAppointment);
                 return Result<bool>.Failure(message:"روز جمعه مجموعه تعطیل می باشد.");
             }
             if (dayOfWeek == "Odd" && carCompany.CarCompany == CarCompanyEnum.IranKhodro)
@@ -47,16 +73,25 @@ namespace App.Domain.AppService.InspectionAppointmentAgg
 
             var numberOfRequests = appointmentService.NumberOfRequestsOfPerDay(newAppointment.TurnTimeShamsi);
             if (numberOfRequests >= 10 && dayOfWeek == "Odd")
-            { 
+            {
+                newAppointment.IsValidRequests = false;
+                newAppointment.RejectionReason = "تعداد درخواست ها در تاریخ به حداکثر رسیده است.";
+                newAppointment.Status = AppointmentStatusEnum.Denied;
+                var rs = appointmentService.CreateInspectionAppointment(newAppointment);
                 return Result<bool>.Failure(message:"در روز های فرد بیشتر از 10 ماشین پذیرش نمی شوند.");
             }
             if (numberOfRequests >= 15 && dayOfWeek == "Even")
             {
+                newAppointment.IsValidRequests = false;
+                newAppointment.RejectionReason = "تعداد درخواست ها در تاریخ به حداکثر رسیده است.";
+                newAppointment.Status = AppointmentStatusEnum.Denied;
+                var rs = appointmentService.CreateInspectionAppointment(newAppointment);
                 return Result<bool>.Failure(message: "در روز های زوج بیشتر از 15 ماشین پذیرش نمی شوند.");
             }
 
 
             newAppointment.IsValidRequests = true;
+            newAppointment.Status = AppointmentStatusEnum.Pending;
             var result = appointmentService.CreateInspectionAppointment(newAppointment);
             if (result > 0)
             {
@@ -66,6 +101,21 @@ namespace App.Domain.AppService.InspectionAppointmentAgg
             {
                 return Result<bool>.Failure(message: "مشکلی پیش آمده لحظاتی بعد تلاش کنید.");
             }
+        }
+
+        public List<ShowAcceptedAppointmentDto> GetAcceptedAppointment(string? dayFilter,CarCompanyEnum? companyFilter)
+        {
+            return appointmentService.GetAcceptedAppointment(dayFilter, companyFilter);
+        }
+
+        public List<ShowRejectedAppointmentDto> GetRejectedAppointment()
+        {
+            return appointmentService.GetRejectedAppointment();
+        }
+
+        public List<string> GetReserveDays()
+        {
+            return appointmentService.GetReserveDays();
         }
 
         private bool CheckLifespanOfCar(int yearOfManufacture)
@@ -99,17 +149,26 @@ namespace App.Domain.AppService.InspectionAppointmentAgg
             // 5 = پنجشنبه
             // 6 = جمعه
 
-            return persianDayIndex switch
+            switch (persianDayIndex)
             {
-                0 => "Even",    // شنبه → زوج؟ نه! برعکسش کنی یا طبق منطقت
-                1 => "Odd",   // یکشنبه
-                2 => "Even",    // دوشنبه
-                3 => "Odd",   // سه‌شنبه
-                4 => "Even",    // چهارشنبه
-                5 => "Odd",   // پنجشنبه
-                6 => "Friday", // جمعه
-                _ => "Friday"
-            };
+                case 0:
+                    return "Even";
+                case 1:
+                    return "Odd";
+                case 2:
+                    return "Even";
+                case 3:
+                    return "Odd";
+                case 4:
+                    return "Even";
+                case 5:
+                    return "Odd";
+                case 6:
+                    return "Friday";
+                default:
+                    return "Friday";
+            }
+
             //var dayOfWeek = dt.DayOfWeek;
 
             //if (dayOfWeek == DayOfWeek.Sunday || dayOfWeek == DayOfWeek.Monday || dayOfWeek == DayOfWeek.Wednesday)

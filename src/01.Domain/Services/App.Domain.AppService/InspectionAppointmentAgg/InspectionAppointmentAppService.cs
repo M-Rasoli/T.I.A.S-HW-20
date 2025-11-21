@@ -40,7 +40,7 @@ namespace App.Domain.AppService.InspectionAppointmentAgg
                 newAppointment.RejectionReason = "طول عمر خودرو بیشتر از 5 سال.";
                 newAppointment.Status = AppointmentStatusEnum.Denied;
                 var rs = appointmentService.CreateInspectionAppointment(newAppointment);
-                return Result<bool>.Failure(message: "طول عمر ماشین شما بیشتر از 5 سال است.");
+                return Result<bool>.Failure(message: "طول عمر خودرو شما بیشتر از 5 سال است.");
             }
             if (appointmentService.IsPlateRequestedInThisYear(newAppointment.LicensePlate))
             {
@@ -64,11 +64,19 @@ namespace App.Domain.AppService.InspectionAppointmentAgg
             }
             if (dayOfWeek == "Odd" && carCompany.CarCompany == CarCompanyEnum.IranKhodro)
             {
-                return Result<bool>.Failure(message:"ماشین های شرکت ایرانخودرو فقط در روز های زوج پذیرش می شوند.");
+                newAppointment.IsValidRequests = false;
+                newAppointment.RejectionReason = "درخواست معاینه فنی خودرو ایران خودرو در روز فرد.";
+                newAppointment.Status = AppointmentStatusEnum.Denied;
+                var rs = appointmentService.CreateInspectionAppointment(newAppointment);
+                return Result<bool>.Failure(message:"خودرو های شرکت ایرانخودرو فقط در روز های زوج پذیرش می شوند.");
             }
             if (dayOfWeek == "Even" && carCompany.CarCompany == CarCompanyEnum.Saipa)
             {
-                return Result<bool>.Failure(message: "ماشین های شرکت سایپا فقط در روز های فرد پذیرش می شوند.");
+                newAppointment.IsValidRequests = false;
+                newAppointment.RejectionReason = "درخواست معاینه فنی خودرو سایپا در روز زوج.";
+                newAppointment.Status = AppointmentStatusEnum.Denied;
+                var rs = appointmentService.CreateInspectionAppointment(newAppointment);
+                return Result<bool>.Failure(message: "خودرو های شرکت سایپا فقط در روز های فرد پذیرش می شوند.");
             }
 
             var numberOfRequests = appointmentService.NumberOfRequestsOfPerDay(newAppointment.TurnTimeShamsi);
@@ -78,7 +86,7 @@ namespace App.Domain.AppService.InspectionAppointmentAgg
                 newAppointment.RejectionReason = "تعداد درخواست ها در تاریخ به حداکثر رسیده است.";
                 newAppointment.Status = AppointmentStatusEnum.Denied;
                 var rs = appointmentService.CreateInspectionAppointment(newAppointment);
-                return Result<bool>.Failure(message:"در روز های فرد بیشتر از 10 ماشین پذیرش نمی شوند.");
+                return Result<bool>.Failure(message:"در روز های فرد بیشتر از 10 خودرو پذیرش نمی شوند.");
             }
             if (numberOfRequests >= 15 && dayOfWeek == "Even")
             {
@@ -86,7 +94,7 @@ namespace App.Domain.AppService.InspectionAppointmentAgg
                 newAppointment.RejectionReason = "تعداد درخواست ها در تاریخ به حداکثر رسیده است.";
                 newAppointment.Status = AppointmentStatusEnum.Denied;
                 var rs = appointmentService.CreateInspectionAppointment(newAppointment);
-                return Result<bool>.Failure(message: "در روز های زوج بیشتر از 15 ماشین پذیرش نمی شوند.");
+                return Result<bool>.Failure(message: "در روز های زوج بیشتر از 15 خودرو پذیرش نمی شوند.");
             }
 
 

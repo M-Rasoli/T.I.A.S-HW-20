@@ -102,14 +102,16 @@ namespace App.Infrastructure.EfCore.Repositories.InspectionAppointmentAgg
         {
             return _context.Appointments
                 .Where(a => a.IsValidRequests == true)
-                .Select(x => x.TurnTimeShamsi).ToList();
+                .Select(x => x.TurnTimeShamsi)
+                .Distinct().ToList();
         }
 
         public bool IsPlateRequestedInThisYear(string plate)
         {
             return _context.Appointments
                 .Any(a => a.LicensePlate == plate
-                                                  && a.TurnTime.Year == DateTime.Now.Year);
+                                                  && a.TurnTime.Year == DateTime.Now.Year
+                                                  && a.IsValidRequests == true);
         }
 
         public int NumberOfRequestsOfPerDay(string turnDate)

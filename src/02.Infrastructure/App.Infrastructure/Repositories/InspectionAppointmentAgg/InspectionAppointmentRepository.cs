@@ -116,8 +116,8 @@ namespace App.Infrastructure.EfCore.Repositories.InspectionAppointmentAgg
 
         public int NumberOfRequestsOfPerDay(string turnDate)
         {
-            return _context.Appointments.Where(a => a.TurnTimeShamsi == turnDate 
-                                                    && a.IsValidRequests == true).Count();
+            return _context.Appointments.Count(a => a.TurnTimeShamsi == turnDate 
+                                                    && a.IsValidRequests == true);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using App.Domain.Core.CarAgg.Contracts;
 using App.Domain.Core.CarAgg.Dtos;
 using App.Domain.Core.CarAgg.Enums;
@@ -26,7 +27,7 @@ namespace App.EndPoints.Presentation.Razorpage.Pages.InspectionAppointment
         public DateTime TurnTime { get; set; }
         public string TurnTimeShamsi { get; set; }
         public string Address { get; set; }
-    } 
+    }
     public class AddModel
     (IInspectionAppointmentAppService appointmentAppService 
         , ICarAppService carAppService

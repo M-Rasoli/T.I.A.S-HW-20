@@ -65,7 +65,7 @@ namespace App.Domain.AppService.InspectionAppointmentAgg
             if (dayOfWeek == "Odd" && carCompany.CarCompany == CarCompanyEnum.IranKhodro)
             {
                 newAppointment.IsValidRequests = false;
-                newAppointment.RejectionReason = "درخواست معاینه فنی خودرو ایران خودرو در روز فرد.";
+                newAppointment.RejectionReason = "درخواست معاینه فنی خودرو ,ایران خودرو در روز فرد.";
                 newAppointment.Status = AppointmentStatusEnum.Denied;
                 var rs = appointmentService.CreateInspectionAppointment(newAppointment);
                 return Result<bool>.Failure(message:"خودرو های شرکت ایرانخودرو فقط در روز های زوج پذیرش می شوند.");
@@ -128,7 +128,7 @@ namespace App.Domain.AppService.InspectionAppointmentAgg
 
         private bool CheckLifespanOfCar(int yearOfManufacture)
         {
-            var Lifespan = DateTime.Now.Year - yearOfManufacture;//2002-2004
+            var Lifespan = DateTime.Now.Year - yearOfManufacture;
             if (Lifespan > 5)
             {
                 return false;
@@ -138,7 +138,7 @@ namespace App.Domain.AppService.InspectionAppointmentAgg
         private string CheckTurnDate(string turnTimeShamsi)
         {
             var pc = new PersianCalendar();
-
+            
             var parts = turnTimeShamsi.Split('/');
             int year = int.Parse(parts[0]);
             int month = int.Parse(parts[1]);
@@ -146,6 +146,7 @@ namespace App.Domain.AppService.InspectionAppointmentAgg
             
             DateTime dt = pc.ToDateTime(year, month, day, 0, 0, 0, 0);
             dt = DateTime.SpecifyKind(dt, DateTimeKind.Utc);
+            //var ss = pc.GetDayOfWeek(dt);
 
             int persianDayIndex = ((int)dt.DayOfWeek + 1) % 7;
             // حالا:
